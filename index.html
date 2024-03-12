@@ -10,9 +10,15 @@
   </head>
   
   <body>
-    <div id = 'scene_menu' class = 'fixed_full_size' style = 'display: none;'></div>
+    <div id = 'scene_menu' class = 'fixed_full_size'>
+      <h1>Infinite Voxel Test</h1>
+      
+      <button>Singleplayer</button>
+      <button>Multiplayer</button>
+      <button>Options</button>
+    </div>
     
-    <div id = 'scene_game' class = 'fixed_full_size force_contents_overlay'>
+    <div id = 'scene_game' class = 'fixed_full_size force_contents_overlay' style = 'display: none;'>
       <canvas id = 'canvas' class = 'full_size'></canvas>
       
       <div id = 'menu_overlay' class = 'full_size' style = 'display: none;'></div>
