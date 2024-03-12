@@ -11,6 +11,9 @@ let mainPageManager = new PageManager({
   'Options Menu': {
     htmlElem: options_menu,
   },
+  'Game Loading': {
+    htmlElem: scene_game_loading,
+  },
   'Game': {
     htmlElem: scene_game,
   },

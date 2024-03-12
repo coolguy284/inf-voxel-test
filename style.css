@@ -123,6 +123,11 @@ hr {
   }
 }
 
+#scene_game_loading {
+  align-items: center;
+  justify-content: center;
+}
+
 #menu_overlay {
   background-color: rgba(0, 0, 0, 0.5);
 }
