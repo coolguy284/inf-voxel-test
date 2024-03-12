@@ -1,6 +1,7 @@
 const engine = new BABYLON.Engine(canvas, true);
 
 let playerPos = new WorldPos();
+let chunkStore = new ChunkManager();
 
 function createScene() {
   const scene = new BABYLON.Scene(engine);
@@ -27,10 +28,13 @@ function createScene() {
   //const skyboxTexture = new BABYLON.CubeTexture('textures/skybox_', scene, ['side.png', 'top.png', 'side.png', 'side.png', 'bottom.png', 'side.png', ]);
   scene.createDefaultSkybox(skyboxTexture, false, 1000);
   
-  const grassCube = BABYLON.MeshBuilder.CreateBox('grass', { size: 1 }, scene);
-  grassCube.material = BLOCK_DATA.get('inf_voxel_test:grass').material;
-  grassCube.renderingGroupId = 1;
-  grassCube.position = new BABYLON.Vector3(...playerPos.toLowPrecCoords()).negate();
+  const chunkRenderer = new ChunkRenderer(playerPos, chunkStore);
+  
+  //const grassCube = BABYLON.MeshBuilder.CreateBox('grass', { size: 1 }, scene);
+  //grassCube.material = BLOCK_DATA.get('inf_voxel_test:grass').material;
+  //grassCube.renderingGroupId = 1;
+  //grassCube.position = new BABYLON.Vector3(0, -1, 5);
+  //grassCube.position = new BABYLON.Vector3(...playerPos.toLowPrecCoords()).negate();
   
   scene.onPointerDown = () => {
     // https://github.com/il-m-yamagishi/babylon-fps-shooter/blob/main/src/MainScene.ts#L107
@@ -78,9 +82,10 @@ function createScene() {
         result.y += (upPressed - downPressed) * MOVEMENT_SPEED * scene.deltaTime / 1000;
         
         playerPos.translateByNumbers(result.x, result.y, result.z);
-        let newBlockPos = new BABYLON.Vector3(...playerPos.toLowPrecCoords());
-        newBlockPos.negateInPlace();
-        grassCube.position = newBlockPos;
+        chunkRenderer.updatePlayerPos(playerPos);
+        //let newBlockPos = new BABYLON.Vector3(...playerPos.toLowPrecCoords());
+        //newBlockPos.negateInPlace();
+        //grassCube.position = newBlockPos;
       }
     }
   };
