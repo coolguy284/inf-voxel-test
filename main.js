@@ -28,7 +28,7 @@ function createScene() {
       blockData.material.diffuseTexture = blockData.textureObj;
     }
   }
-  playerPos.translateByNumbers(0, 4, 0);
+  playerPos.translateByNumbers(0, 11.5, 0);
   updatePlayerText();
   
   const camera = new BABYLON.UniversalCamera('camera', new BABYLON.Vector3(0, 0, 0), scene);
@@ -120,3 +120,5 @@ addEventListener('resize', () => engine.resize());
 
 mainPageManager.switchPage("Game");
 engine.resize();
+
+//center=new WorldPos();vll=setInterval(()=>{let d=playerPos.approxDistTo(center);if(Number.isFinite(d*100))MOVEMENT_SPEED=d*1;},50)
