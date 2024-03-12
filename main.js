@@ -15,11 +15,19 @@ function createScene() {
   
   light.intensity = 0.7;
   
+  const skyboxTexture = new BABYLON.CubeTexture('', scene, null, null, texArrayFromBlockData(SKYBOX_DATA));
+  //const skyboxTexture = new BABYLON.CubeTexture('textures/skybox_', scene, ['side.png', 'top.png', 'side.png', 'side.png', 'bottom.png', 'side.png', ]);
+  scene.createDefaultSkybox(skyboxTexture, false, 1000);
+  
   const sphere = BABYLON.MeshBuilder.CreateSphere('sphere', { diameter: 2, segments: 10 }, scene);
   
   sphere.position.y = 1;
   
   const ground = BABYLON.MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene);
+  const groundMaterial = new BABYLON.StandardMaterial('ground material', scene);
+  const groundTexture = new BABYLON.Texture('textures/dirt.png', scene);
+  groundMaterial.diffuseTexture = groundTexture;
+  ground.material = groundMaterial;
   
   scene.onPointerDown = () => {
     // https://github.com/il-m-yamagishi/babylon-fps-shooter/blob/main/src/MainScene.ts#L107
