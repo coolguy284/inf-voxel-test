@@ -19,11 +19,11 @@ function createScene() {
   const skyboxTexture = new BABYLON.CubeTexture(texArrayFromBlockData(SKYBOX_DATA)[0], scene, null, null, texArrayFromBlockData(SKYBOX_DATA));
   //const skyboxTexture = new BABYLON.CubeTexture('textures/skybox_', scene, ['side.png', 'top.png', 'side.png', 'side.png', 'bottom.png', 'side.png', ]);
   
-  const grassCube = BABYLON.MeshBuilder.CreateBox('grass', { size: 3 }, scene);
+  const grassCube = BABYLON.MeshBuilder.CreateBox('grass', { size: 1 }, scene);
   const grassMaterial = new BABYLON.StandardMaterial('grass material', scene);
-  const grassTexture = new BABYLON.CubeTexture(texArrayFromBlockData(BLOCK_DATA.get('inf_voxel_test:grass'))[0], scene, null, null, texArrayFromBlockData(BLOCK_DATA.get('inf_voxel_test:grass')));
+  const grassTexture = new BABYLON.Texture(BLOCK_DATA.get('inf_voxel_test:grass').texture, scene);
   //const grassTexture = new BABYLON.Texture('textures/grass.png', scene);
-  grassMaterial.reflectionTexture = grassTexture;
+  grassMaterial.diffuseTexture = grassTexture;
   grassCube.material = grassMaterial;
   
   /*
