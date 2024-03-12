@@ -27,6 +27,17 @@
     <canvas id = 'canvas'></canvas>
     
     <script>
+      let MOVEMENT_SPEED = 1;
+      
+      const KEY_CODES = {
+        ShiftLeft: 16,
+        KeyA: 65,
+        KeyD: 68,
+        KeyS: 83,
+        KeyW: 87,
+        KeyZ: 90,
+      };
+      
       const engine = new BABYLON.Engine(canvas, true);
       
       function createScene() {
@@ -54,6 +65,21 @@
           // https://github.com/il-m-yamagishi/babylon-fps-shooter/blob/main/src/MainScene.ts#L107
           if (!engine.isPointerLock) {
             engine.enterPointerlock();
+          }
+        };
+        
+        // https://playground.babylonjs.com/#H5813K
+        const dsm = new BABYLON.DeviceSourceManager(engine);
+        
+        scene.beforeRender = () => {
+          const keyboard = dsm.getDeviceSource(BABYLON.DeviceType.Keyboard);
+          
+          if (keyboard) {
+            if (keyboard.getInput(KEY_CODES.KeyW)) {
+              // https://forum.babylonjs.com/t/how-to-move-the-camera-in-the-direction-the-camera-is-facing/21307
+              // https://forum.babylonjs.com/t/how-to-use-delta-time/27501
+              camera.position = camera.getFrontPosition(MOVEMENT_SPEED * scene.deltaTime / 1000);
+            }
           }
         };
         
