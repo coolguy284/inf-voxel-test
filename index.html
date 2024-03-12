@@ -6,11 +6,10 @@
     <title>Infinite Voxel Test</title>
     
     <link rel = 'stylesheet' href = 'style.css'>
-    <script src = 'lib_extern/babylon_6.46.0.js'></script>
   </head>
   
   <body>
-    <div id = 'scene_main_menu' class = 'fixed_full_size'>
+    <div id = 'scene_main_menu' class = 'fixed_full_size_menu'>
       <h1>Infinite Voxel Test</h1>
       
       <button onclick = 'mainPageManager.switchPage("Singleplayer Menu")'>Singleplayer</button>
@@ -18,9 +17,41 @@
       <button onclick = 'mainPageManager.switchPage("Options Menu")'>Options</button>
     </div>
     
-    <div id = 'singleplayer_menu' class = 'fixed_full_size' style = 'display: none;'></div>
-    <div id = 'multiplayer_menu' class = 'fixed_full_size' style = 'display: none;'></div>
-    <div id = 'options_menu' class = 'fixed_full_size' style = 'display: none;'></div>
+    <div id = 'singleplayer_menu' class = 'fixed_full_size_menu' style = 'display: none;'>
+      <button class = 'back_button' onclick = 'mainPageManager.switchPage("Main Menu")'>Back</button>
+      <h1>Singleplayer</h1>
+      
+      <hr>
+      
+      <div id = 'singleplayer_menu_worlds'>
+        <div class = 'singleplayer_menu_world'>
+          <span>Test World (Basic)</span>
+          <button>Play</button>
+        </div>
+      </div>
+      
+      <hr>
+      
+      <div class = 'bottom_row'>
+        <button disabled>Play</button>
+        <button disabled>Info</button>
+        <button disabled>Edit</button>
+        <button disabled>Export</button>
+        <button disabled>Delete</button>
+        <button>Create New</button>
+        <button>Import</button>
+      </div>
+    </div>
+    
+    <div id = 'multiplayer_menu' class = 'fixed_full_size_menu' style = 'display: none;'>
+      <button class = 'back_button' onclick = 'mainPageManager.switchPage("Main Menu")'>Back</button>
+      <h1>Multiplayer</h1>
+    </div>
+    
+    <div id = 'options_menu' class = 'fixed_full_size_menu' style = 'display: none;'>
+      <button class = 'back_button' onclick = 'mainPageManager.switchPage("Main Menu")'>Back</button>
+      <h1>Options</h1>
+    </div>
     
     <div id = 'scene_game' class = 'fixed_full_size force_contents_overlay' style = 'display: none;'>
       <canvas id = 'canvas' class = 'full_size'></canvas>
@@ -28,6 +59,7 @@
       <div id = 'menu_overlay' class = 'full_size' style = 'display: none;'></div>
     </div>
     
+    <script src = 'lib_extern/babylon_6.46.0.js'></script>
     <script src = 'lib/page_manager.js'></script>
     <script src = 'constants.js'></script>
     <script src = 'globals.js'></script>
