@@ -45,12 +45,14 @@ function test_world_pos() {
   worldPos1.setBlockX(0n);
   worldPos1.setBlockY(-1n);
   console.log(worldPos1.toString());
+  console.log(worldPos1.toLowPrecCoords().join(', '));
   
   let worldPos2 = new WorldPos();
   worldPos2.setBlockX(0n);
   worldPos2.setBlockY(-1n);
   worldPos2.setFracY(0.1);
   console.log(worldPos2.toString());
+  console.log(worldPos2.toLowPrecCoords().join(', '));
   
   let worldPos3 = new WorldPos();
   worldPos3.setBlockX(1n);
@@ -58,6 +60,7 @@ function test_world_pos() {
   worldPos3.setBlockY(-2n);
   worldPos3.setFracY(0.1);
   console.log(worldPos3.toString());
+  console.log(worldPos3.toLowPrecCoords().join(', '));
   
   let worldPos4 = new WorldPos();
   worldPos4.setBlockX(1n);
@@ -65,6 +68,12 @@ function test_world_pos() {
   worldPos4.setBlockY(-2n);
   worldPos4.setFracY(0.1);
   console.log(worldPos4.toString());
+  console.log(worldPos4.toLowPrecCoords().join(', '));
+  
+  let worldPos5 = worldPos3.subtract(worldPos4);
+  console.log(worldPos5.toString());
+  console.log(worldPos5.toLowPrecCoords().join(', '));
+  console.log(worldPos3.approxDistTo(worldPos4));
   
   console.log('world pos test finished');
 }
