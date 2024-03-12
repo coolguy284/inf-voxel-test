@@ -2,6 +2,20 @@ const engine = new BABYLON.Engine(canvas, true);
 
 let playerPos = new WorldPos();
 let chunkStore = new ChunkManager();
+let chunkRenderer;
+
+function updatePlayerText() {
+  let [ xString, yString, zString ] = playerPos.toStringArray();
+  x_value.textContent = xString;
+  y_value.textContent = yString;
+  z_value.textContent = zString;
+}
+
+function bumpPlayerPos(x, y, z) {
+  playerPos.translateByNumbers(x, y, z);
+  chunkRenderer.updatePlayerPos(playerPos);
+  updatePlayerText();
+}
 
 function createScene() {
   const scene = new BABYLON.Scene(engine);
@@ -14,6 +28,7 @@ function createScene() {
     }
   }
   playerPos.translateByNumbers(0, 4, 0);
+  updatePlayerText();
   
   const camera = new BABYLON.UniversalCamera('camera', new BABYLON.Vector3(0, 0, 0), scene);
   camera.inertia = 0;
@@ -25,16 +40,9 @@ function createScene() {
   
   // https://doc.babylonjs.com/features/featuresDeepDive/environment/skybox
   const skyboxTexture = new BABYLON.CubeTexture(texArrayFromBlockData(SKYBOX_DATA)[0], scene, null, null, texArrayFromBlockData(SKYBOX_DATA));
-  //const skyboxTexture = new BABYLON.CubeTexture('textures/skybox_', scene, ['side.png', 'top.png', 'side.png', 'side.png', 'bottom.png', 'side.png', ]);
   scene.createDefaultSkybox(skyboxTexture, false, 1000);
   
-  const chunkRenderer = new ChunkRenderer(playerPos, chunkStore);
-  
-  //const grassCube = BABYLON.MeshBuilder.CreateBox('grass', { size: 1 }, scene);
-  //grassCube.material = BLOCK_DATA.get('inf_voxel_test:grass').material;
-  //grassCube.renderingGroupId = 1;
-  //grassCube.position = new BABYLON.Vector3(0, -1, 5);
-  //grassCube.position = new BABYLON.Vector3(...playerPos.toLowPrecCoords()).negate();
+  chunkRenderer = new ChunkRenderer(playerPos, chunkStore);
   
   scene.onPointerDown = () => {
     // https://github.com/il-m-yamagishi/babylon-fps-shooter/blob/main/src/MainScene.ts#L107
@@ -83,9 +91,7 @@ function createScene() {
         
         playerPos.translateByNumbers(result.x, result.y, result.z);
         chunkRenderer.updatePlayerPos(playerPos);
-        //let newBlockPos = new BABYLON.Vector3(...playerPos.toLowPrecCoords());
-        //newBlockPos.negateInPlace();
-        //grassCube.position = newBlockPos;
+        updatePlayerText();
       }
     }
   };
@@ -103,4 +109,3 @@ addEventListener('resize', () => engine.resize());
 
 mainPageManager.switchPage("Game");
 engine.resize();
-engine.enterPointerlock();

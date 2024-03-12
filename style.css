@@ -128,6 +128,18 @@ hr {
   justify-content: center;
 }
 
+#data_overlay {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  font-size: 20px;
+  
+  div {
+    flex-direction: row;
+    gap: 10px;
+  }
+}
+
 #menu_overlay {
   background-color: rgba(0, 0, 0, 0.5);
 }
