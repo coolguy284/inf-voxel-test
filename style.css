@@ -31,7 +31,7 @@ html {
   height: 100%;
 }
 
-#scene_menu {
+#scene_main_menu {
   align-items: center;
   justify-content: center;
   gap: 30px;
@@ -50,6 +50,14 @@ html {
     color: white;
     background-color: black;
     width: 200px;
+    
+    &:hover {
+      background-color: gray;
+    }
+    
+    &:active {
+      background-color: darkgray;
+    }
   }
 }
 

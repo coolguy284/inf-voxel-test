@@ -10,13 +10,17 @@
   </head>
   
   <body>
-    <div id = 'scene_menu' class = 'fixed_full_size'>
+    <div id = 'scene_main_menu' class = 'fixed_full_size'>
       <h1>Infinite Voxel Test</h1>
       
-      <button>Singleplayer</button>
-      <button>Multiplayer</button>
-      <button>Options</button>
+      <button onclick = 'mainPageManager.switchPage("Singleplayer Menu")'>Singleplayer</button>
+      <button onclick = 'mainPageManager.switchPage("Multiplayer Menu")'>Multiplayer</button>
+      <button onclick = 'mainPageManager.switchPage("Options Menu")'>Options</button>
     </div>
+    
+    <div id = 'singleplayer_menu' class = 'fixed_full_size' style = 'display: none;'></div>
+    <div id = 'multiplayer_menu' class = 'fixed_full_size' style = 'display: none;'></div>
+    <div id = 'options_menu' class = 'fixed_full_size' style = 'display: none;'></div>
     
     <div id = 'scene_game' class = 'fixed_full_size force_contents_overlay' style = 'display: none;'>
       <canvas id = 'canvas' class = 'full_size'></canvas>
@@ -24,7 +28,9 @@
       <div id = 'menu_overlay' class = 'full_size' style = 'display: none;'></div>
     </div>
     
+    <script src = 'lib/page_manager.js'></script>
     <script src = 'constants.js'></script>
+    <script src = 'globals.js'></script>
     <script src = 'main.js'></script>
   </body>
 </html>
