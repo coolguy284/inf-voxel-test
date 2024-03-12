@@ -105,6 +105,8 @@ function createScene() {
       queuedDeltaY = 0;
       queuedDeltaZ = 0;
     }
+    
+    chunkRenderer.regenFromRegenQueue();
   };
   
   return scene;
