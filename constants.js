@@ -1,4 +1,5 @@
 let MOVEMENT_SPEED = 3;
+let RENDER_RADIUS = 2;
 
 let CHUNK_SIZE = 16;
 
@@ -12,10 +13,10 @@ let KEY_CODES = {
   KeyX: 88,
 };
 
-let BLOCK_DATA = {
-  'inf_voxel_test:air': {},
-  'inf_voxel_test:stone': {},
-};
+let BLOCK_DATA = new Map([
+  ['inf_voxel_test:air', {}],
+  ['inf_voxel_test:stone', {}],
+]);
 
 let DEFAULT_BLOCK = 'inf_voxel_test:air';
 let CHUNK_INVALID_ID_BLOCK = 'inf_voxel_test:air';
