@@ -35,6 +35,8 @@
         const camera = new BABYLON.UniversalCamera('camera', new BABYLON.Vector3(0, 5, -10), scene);
         
         camera.setTarget(BABYLON.Vector3.Zero());
+        camera.inertia = 0;
+        camera.angularSensibility = 500;
         
         camera.attachControl();
         
@@ -47,6 +49,13 @@
         sphere.position.y = 1;
         
         const ground = BABYLON.MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene);
+        
+        scene.onPointerDown = () => {
+          // https://github.com/il-m-yamagishi/babylon-fps-shooter/blob/main/src/MainScene.ts#L107
+          if (!engine.isPointerLock) {
+            engine.enterPointerlock();
+          }
+        };
         
         return scene;
       }
