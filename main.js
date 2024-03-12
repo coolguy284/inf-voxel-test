@@ -90,17 +90,20 @@ function createScene() {
         
         result.y += (upPressed - downPressed) * MOVEMENT_SPEED * scene.deltaTime / 1000;
         
-        result.x += queuedDeltaX;
-        result.y += queuedDeltaY;
-        result.z += queuedDeltaZ;
-        queuedDeltaX = 0;
-        queuedDeltaY = 0;
-        queuedDeltaZ = 0;
-        
-        playerPos.translateByNumbers(result.x, result.y, result.z);
-        chunkRenderer.updatePlayerPos(playerPos);
-        updatePlayerText();
+        queuedDeltaX += result.x;
+        queuedDeltaY += result.y;
+        queuedDeltaZ += result.z;
       }
+    }
+    
+    if (queuedDeltaX != 0 || queuedDeltaY != 0 || queuedDeltaZ != 0) {
+      playerPos.translateByNumbers(queuedDeltaX, queuedDeltaY, queuedDeltaZ);
+      chunkRenderer.updatePlayerPos(playerPos);
+      updatePlayerText();
+      
+      queuedDeltaX = 0;
+      queuedDeltaY = 0;
+      queuedDeltaZ = 0;
     }
   };
   
