@@ -3,6 +3,7 @@ const engine = new BABYLON.Engine(canvas, true);
 let playerPos = new WorldPos();
 let chunkStore = new ChunkManager();
 let chunkRenderer;
+let queuedDeltaX = 0, queuedDeltaY = 0, queuedDeltaZ = 0;
 
 function updatePlayerText() {
   let [ xString, yString, zString ] = playerPos.toStringArray();
@@ -12,9 +13,9 @@ function updatePlayerText() {
 }
 
 function bumpPlayerPos(x, y, z) {
-  playerPos.translateByNumbers(x, y, z);
-  chunkRenderer.updatePlayerPos(playerPos);
-  updatePlayerText();
+  queuedDeltaX += x;
+  queuedDeltaY += y;
+  queuedDeltaZ += z;
 }
 
 function createScene() {
@@ -88,6 +89,13 @@ function createScene() {
         unTransformedMvmt.rotateByQuaternionToRef(quat, result);
         
         result.y += (upPressed - downPressed) * MOVEMENT_SPEED * scene.deltaTime / 1000;
+        
+        result.x += queuedDeltaX;
+        result.y += queuedDeltaY;
+        result.z += queuedDeltaZ;
+        queuedDeltaX = 0;
+        queuedDeltaY = 0;
+        queuedDeltaZ = 0;
         
         playerPos.translateByNumbers(result.x, result.y, result.z);
         chunkRenderer.updatePlayerPos(playerPos);
