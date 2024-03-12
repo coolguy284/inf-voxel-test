@@ -15,12 +15,20 @@ function createScene() {
   
   light.intensity = 0.7;
   
+  // https://doc.babylonjs.com/features/featuresDeepDive/environment/skybox
   const skyboxTexture = new BABYLON.CubeTexture('', scene, null, null, texArrayFromBlockData(SKYBOX_DATA));
   //const skyboxTexture = new BABYLON.CubeTexture('textures/skybox_', scene, ['side.png', 'top.png', 'side.png', 'side.png', 'bottom.png', 'side.png', ]);
   scene.createDefaultSkybox(skyboxTexture, false, 1000);
   
-  const sphere = BABYLON.MeshBuilder.CreateSphere('sphere', { diameter: 2, segments: 10 }, scene);
+  const grassCube = BABYLON.MeshBuilder.CreateBox('grass', { size: 1 }, scene);
+  const grassMaterial = new BABYLON.StandardMaterial('grass material', scene);
+  //const grassTexture = new BABYLON.CubeTexture('', scene, null, null, texArrayFromBlockData(BLOCK_DATA.get('inf_voxel_test:grass')));
+  const grassTexture = new BABYLON.Texture('textures/grass.png', scene);
+  grassMaterial.diffuseTexture = grassTexture;
+  grassCube.material = grassMaterial;
   
+  /*
+  const sphere = BABYLON.MeshBuilder.CreateSphere('sphere', { diameter: 2, segments: 10 }, scene);
   sphere.position.y = 1;
   
   const ground = BABYLON.MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene);
@@ -28,6 +36,7 @@ function createScene() {
   const groundTexture = new BABYLON.Texture('textures/dirt.png', scene);
   groundMaterial.diffuseTexture = groundTexture;
   ground.material = groundMaterial;
+  */
   
   scene.onPointerDown = () => {
     // https://github.com/il-m-yamagishi/babylon-fps-shooter/blob/main/src/MainScene.ts#L107
