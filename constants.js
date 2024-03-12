@@ -1,11 +1,16 @@
 let MOVEMENT_SPEED = 10;
 let CHUNK_RENDER_RADIUS = 3;
+// 0 - flat
+// 1 - earth
 let WORLDGEN_MODE = 0;
 
 let CHUNK_SIZE = 4;
 let MAX_REGEN_QUEUE_PER_FRAME = 1000;
 let MAX_REGEN_MILLIS_PER_FRAME = 3;
 let MERGE_MESH_WITH_CSG = false;
+// 0 - bottom up
+// 1 - closest first
+let CHUNK_REGEN_ORDER = 1;
 
 let CHUNK_RENDER_RADIUS_BIGINT = BigInt(CHUNK_RENDER_RADIUS);
 let CHUNK_SIZE_BIGINT = BigInt(CHUNK_SIZE);
