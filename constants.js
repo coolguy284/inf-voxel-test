@@ -1,5 +1,6 @@
 let MOVEMENT_SPEED = 10;
 let CHUNK_RENDER_RADIUS = 2;
+let WORLDGEN_MODE = 1;
 
 let CHUNK_SIZE = 4;
 
