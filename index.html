@@ -27,7 +27,7 @@
     <canvas id = 'canvas'></canvas>
     
     <script>
-      let MOVEMENT_SPEED = 1;
+      let MOVEMENT_SPEED = 3;
       
       const KEY_CODES = {
         ShiftLeft: 16,
@@ -68,6 +68,11 @@
           }
         };
         
+        // Modulo camera rotation value to keep it sane
+        scene.onPointerMove = () => {
+          camera.rotation.y = camera.rotation.y % (Math.PI * 2);
+        };
+        
         // https://playground.babylonjs.com/#H5813K
         const dsm = new BABYLON.DeviceSourceManager(engine);
         
@@ -76,9 +81,17 @@
           
           if (keyboard) {
             if (keyboard.getInput(KEY_CODES.KeyW)) {
-              // https://forum.babylonjs.com/t/how-to-move-the-camera-in-the-direction-the-camera-is-facing/21307
-              // https://forum.babylonjs.com/t/how-to-use-delta-time/27501
-              camera.position = camera.getFrontPosition(MOVEMENT_SPEED * scene.deltaTime / 1000);
+              const horizontalAngle = camera.rotation.y;
+              
+              // https://forum.babylonjs.com/t/simplest-way-to-rotate-vector-by-euler-angles/9389
+              const quat = BABYLON.Quaternion.FromEulerAngles(0, horizontalAngle, 0);
+              
+              const forward = new BABYLON.Vector3(0, 0, scene.deltaTime / 1000 * MOVEMENT_SPEED);
+              
+              let result = BABYLON.Vector3.Zero();
+              forward.rotateByQuaternionToRef(quat, result);
+              
+              camera.position = camera.position.add(result);
             }
           }
         };
