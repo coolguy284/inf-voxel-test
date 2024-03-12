@@ -31,11 +31,12 @@
       
       const KEY_CODES = {
         ShiftLeft: 16,
+        Space: 32,
         KeyA: 65,
         KeyD: 68,
         KeyS: 83,
         KeyW: 87,
-        KeyZ: 90,
+        KeyX: 88,
       };
       
       const engine = new BABYLON.Engine(canvas, true);
@@ -80,16 +81,31 @@
           const keyboard = dsm.getDeviceSource(BABYLON.DeviceType.Keyboard);
           
           if (keyboard) {
-            if (keyboard.getInput(KEY_CODES.KeyW)) {
+            const forwardPressed = keyboard.getInput(KEY_CODES.KeyW);
+            const backwardPressed = keyboard.getInput(KEY_CODES.KeyS);
+            const leftPressed = keyboard.getInput(KEY_CODES.KeyA);
+            const rightPressed = keyboard.getInput(KEY_CODES.KeyD);
+            const upPressed = keyboard.getInput(KEY_CODES.Space);
+            const downPressed = keyboard.getInput(KEY_CODES.KeyX);
+            
+            const mvmtPressed = forwardPressed || backwardPressed || leftPressed || rightPressed || upPressed || downPressed;
+            
+            if (mvmtPressed) {
               const horizontalAngle = camera.rotation.y;
               
               // https://forum.babylonjs.com/t/simplest-way-to-rotate-vector-by-euler-angles/9389
               const quat = BABYLON.Quaternion.FromEulerAngles(0, horizontalAngle, 0);
               
-              const forward = new BABYLON.Vector3(0, 0, scene.deltaTime / 1000 * MOVEMENT_SPEED);
+              const unTransformedMvmt = new BABYLON.Vector3(
+                (rightPressed - leftPressed) * MOVEMENT_SPEED * scene.deltaTime / 1000,
+                0,
+                (forwardPressed - backwardPressed) * MOVEMENT_SPEED * scene.deltaTime / 1000
+              );
               
               let result = BABYLON.Vector3.Zero();
-              forward.rotateByQuaternionToRef(quat, result);
+              unTransformedMvmt.rotateByQuaternionToRef(quat, result);
+              
+              result.y += (upPressed - downPressed) * MOVEMENT_SPEED * scene.deltaTime / 1000;
               
               camera.position = camera.position.add(result);
             }
