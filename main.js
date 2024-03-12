@@ -13,7 +13,7 @@ function createScene() {
       blockData.material.diffuseTexture = blockData.textureObj;
     }
   }
-  playerPos.translateByNumbers(0, 2, -5);
+  playerPos.translateByNumbers(0, 4, 0);
   
   const camera = new BABYLON.UniversalCamera('camera', new BABYLON.Vector3(0, 0, 0), scene);
   camera.inertia = 0;
