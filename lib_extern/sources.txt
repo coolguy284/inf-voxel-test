@@ -1,0 +1,2 @@
+babylon_6.46.0.js: https://cdn.babylonjs.com/babylon.js
+https://cdn.babylonjs.com/babylon.js.map
