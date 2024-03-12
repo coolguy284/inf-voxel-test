@@ -2,6 +2,7 @@ let MOVEMENT_SPEED = 3;
 let RENDER_RADIUS = 2;
 
 let CHUNK_SIZE = 16;
+let CHUNK_SIZE_BIGINT = BigInt(CHUNK_SIZE);
 
 let KEY_CODES = {
   ShiftLeft: 16,
