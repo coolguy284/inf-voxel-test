@@ -81,3 +81,7 @@ engine.runRenderLoop(() => {
 });
 
 addEventListener('resize', () => engine.resize());
+
+mainPageManager.switchPage("Game");
+engine.resize();
+engine.enterPointerlock();
