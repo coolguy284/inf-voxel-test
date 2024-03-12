@@ -13,9 +13,52 @@ let KEY_CODES = {
   KeyX: 88,
 };
 
+let SKYBOX_DATA = {
+  front: 'textures/skybox_side.png',
+  back: 'textures/skybox_side.png',
+  left: 'textures/skybox_side.png',
+  right: 'textures/skybox_side.png',
+  top: 'textures/skybox_top.png',
+  bottom: 'textures/skybox_bottom.png',
+};
+
 let BLOCK_DATA = new Map([
-  ['inf_voxel_test:air', {}],
-  ['inf_voxel_test:stone', {}],
+  ['inf_voxel_test:air', {
+    render: false,
+    front: null,
+    back: null,
+    left: null,
+    right: null,
+    top: null,
+    bottom: null,
+  }],
+  ['inf_voxel_test:stone', {
+    render: true,
+    front: 'textures/stone.png',
+    back: 'textures/stone.png',
+    left: 'textures/stone.png',
+    right: 'textures/stone.png',
+    top: 'textures/stone.png',
+    bottom: 'textures/stone.png',
+  }],
+  ['inf_voxel_test:grass', {
+    render: true,
+    front: 'textures/grass.png',
+    back: 'textures/grass.png',
+    left: 'textures/grass.png',
+    right: 'textures/grass.png',
+    top: 'textures/grass.png',
+    bottom: 'textures/grass.png',
+  }],
+  ['inf_voxel_test:dirt', {
+    render: true,
+    front: 'textures/dirt.png',
+    back: 'textures/dirt.png',
+    left: 'textures/dirt.png',
+    right: 'textures/dirt.png',
+    top: 'textures/dirt.png',
+    bottom: 'textures/dirt.png',
+  }],
 ]);
 
 let DEFAULT_BLOCK = 'inf_voxel_test:air';
