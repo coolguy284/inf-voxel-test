@@ -1,12 +1,13 @@
 let MOVEMENT_SPEED = 10;
-let CHUNK_RENDER_RADIUS = 2;
+let CHUNK_RENDER_RADIUS = 3;
 // 0 - flat
 // 1 - earth
 let WORLDGEN_MODE = 0;
 let FIXED_NUMBER_PREC = 3;
 let FLOAT_NUMBER_PREC = 3;
+let FPS_AVG_FRAMES = 120 * 2;
 
-let CHUNK_SIZE = 8;
+let CHUNK_SIZE = 6;
 let MAX_REGEN_QUEUE_PER_FRAME = 1000;
 let MAX_REGEN_MILLIS_PER_FRAME = 3;
 // 0 - bottom up
@@ -58,6 +59,11 @@ let KEY_CODES = {
   KeyS: 83,
   KeyW: 87,
   KeyX: 88,
+};
+
+let MOUSE_CODES = {
+  LEFT: 0,
+  RIGHT: 2,
 };
 
 let SKYBOX_DATA = {

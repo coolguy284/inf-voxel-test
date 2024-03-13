@@ -2,9 +2,10 @@ const engine = new BABYLON.Engine(canvas, true);
 
 let playerPos = new WorldPos();
 let chunkStore = new ChunkManager();
-let chunkRenderer;
+let invSlot = 0;
 let queuedDeltaX = 0, queuedDeltaY = 0, queuedDeltaZ = 0;
 
+let chunkRenderer;
 let camera;
 
 function updatePosText() {
@@ -34,6 +35,14 @@ function bumpPlayerPos(x, y, z) {
   queuedDeltaX += x;
   queuedDeltaY += y;
   queuedDeltaZ += z;
+}
+
+function breakBlockAtFacing() {
+  
+}
+
+function placeBlockAtFacing() {
+  
 }
 
 function createScene() {
@@ -70,10 +79,24 @@ function createScene() {
   //plane.position = new BABYLON.Vector3(0, 0, 5);
   //plane.rotation = new BABYLON.Vector3(0, Math.PI / 2 * 0.97, 0);
   
-  scene.onPointerDown = () => {
+  /*scene.onKeyboardObservable = evt => {
+    if (evt.type == BABYLON.KeyboardEventTypes.KEYDOWN) {
+      console.log(evt.code);
+    }
+  };*/
+  
+  scene.onPointerDown = evt => {
     // https://github.com/il-m-yamagishi/babylon-fps-shooter/blob/main/src/MainScene.ts#L107
-    if (!engine.isPointerLock) {
-      engine.enterPointerlock();
+    if (evt.button == MOUSE_CODES.LEFT) {
+      if (!engine.isPointerLock) {
+        engine.enterPointerlock();
+      }
+    }
+    
+    if (evt.button == MOUSE_CODES.LEFT) {
+      breakBlockAtFacing();
+    } else if (evt.button == MOUSE_CODES.RIGHT) {
+      placeBlockAtFacing();
     }
   };
   
@@ -133,6 +156,26 @@ function createScene() {
     }
     
     chunkRenderer.regenFromRegenQueue();
+  };
+  
+  let frameTimes = new Array(FPS_AVG_FRAMES).fill(0);
+  let frameTimesSum = 0;
+  let frameIndex = 0;
+  
+  scene.afterRender = () => {
+    if (scene.deltaTime) {
+      frameTimesSum -= frameTimes[frameIndex];
+      frameTimes[frameIndex] = scene.deltaTime;
+      frameTimesSum += frameTimes[frameIndex];
+      frameIndex++;
+      if (frameIndex >= frameTimes.length) {
+        frameIndex = 0;
+      }
+      
+      let avgDeltaTime = frameTimesSum / frameTimes.length;
+      
+      fps_value.textContent = (1000 / avgDeltaTime).toFixed(1);
+    }
   };
   
   return scene;
