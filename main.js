@@ -2,7 +2,7 @@ const engine = new BABYLON.Engine(canvas, true);
 
 let playerPos = new WorldPos();
 let chunkStore = new ChunkManager();
-let invSlot = 0;
+let invSlot = 1;
 let queuedDeltaX = 0, queuedDeltaY = 0, queuedDeltaZ = 0;
 
 let chunkRenderer;
@@ -15,7 +15,7 @@ function updatePosText() {
   z_value.textContent = zString;
 }
 
-function updateRotTest() {
+function updateRotText() {
   let horzAngle = camera.rotation.y / Math.PI * 180;
   let vertAngle = -camera.rotation.x / Math.PI * 180;
   if (horzAngle < 0) horzAngle += 360;
@@ -31,10 +31,31 @@ function updateRotTest() {
   vert_angle.textContent = vertAngle.toFixed(FLOAT_NUMBER_PREC);
 }
 
+function updateInvSlotText() {
+  inv_id.textContent = invSlot;
+  inv_name.textContent = BLOCKS[invSlot];
+}
+
 function bumpPlayerPos(x, y, z) {
   queuedDeltaX += x;
   queuedDeltaY += y;
   queuedDeltaZ += z;
+}
+
+function prevInvItem() {
+  invSlot--;
+  if (invSlot < 0) {
+    invSlot = 0;
+  }
+  updateInvSlotText();
+}
+
+function nextInvItem() {
+  invSlot++;
+  if (invSlot >= BLOCKS.length) {
+    invSlot = BLOCKS.length - 1;
+  }
+  updateInvSlotText();
 }
 
 function breakBlockAtFacing() {
@@ -55,6 +76,10 @@ function createScene() {
       blockData.material.diffuseTexture = blockData.textureObj;
     }
   }
+  BLOCKS = Array.from(BLOCK_DATA.keys());
+  
+  updateInvSlotText();
+  
   playerPos.translateByNumbers(0, 4.5, 0);
   updatePosText();
   
@@ -62,8 +87,9 @@ function createScene() {
   camera.inertia = 0;
   camera.angularSensibility = 500;
   camera.attachControl();
+  camera.inputs.remove(camera.inputs.attached.keyboard);
   
-  updateRotTest();
+  updateRotText();
   
   const light = new BABYLON.HemisphericLight('light', new BABYLON.Vector3(0, 1, 0), scene);
   light.intensity = 0.7;
@@ -103,7 +129,7 @@ function createScene() {
   // Modulo camera rotation value to keep it sane
   scene.onPointerMove = () => {
     camera.rotation.y = camera.rotation.y % (Math.PI * 2);
-    updateRotTest();
+    updateRotText();
   };
   
   // https://playground.babylonjs.com/#H5813K

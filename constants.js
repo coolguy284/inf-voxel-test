@@ -93,6 +93,7 @@ let BLOCK_DATA = new Map([
     texture: 'textures/dirt.png',
   }],
 ]);
+let BLOCKS;
 
 let DEFAULT_BLOCK = 'inf_voxel_test:air';
 let CHUNK_INVALID_ID_BLOCK = 'inf_voxel_test:air';
