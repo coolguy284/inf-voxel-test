@@ -18,10 +18,15 @@ function updateRotTest() {
   let horzAngle = camera.rotation.y / Math.PI * 180;
   let vertAngle = -camera.rotation.x / Math.PI * 180;
   if (horzAngle < 0) horzAngle += 360;
+  
+  let rotSections = ROTATION_SECTION_ANGLE_PRECISIONS[ROTATION_SECTION_PRECISION];
+  let rotSectionNames = ROTATION_SECTION_NAMES[ROTATION_SECTION_PRECISION];
+  
+  let horzAngleSection = Math.floor((horzAngle + 360 / rotSections / 2) / 360 * rotSections);
+  if (horzAngleSection >= rotSections) horzAngleSection -= rotSections;
+  
   horz_angle.textContent = horzAngle.toFixed(FLOAT_NUMBER_PREC);
-  let horzAngleSection = Math.floor((horzAngle + 360 / 16) / 360 * 8);
-  if (horzAngleSection >= 8) horzAngleSection -= 8;
-  horz_angle_symbol.textContent = ROTATION_SECTION_NAMES[horzAngleSection];
+  horz_angle_symbol.textContent = rotSectionNames[horzAngleSection];
   vert_angle.textContent = vertAngle.toFixed(FLOAT_NUMBER_PREC);
 }
 

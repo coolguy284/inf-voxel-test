@@ -16,15 +16,37 @@ let CHUNK_REGEN_ORDER = 1;
 let CHUNK_RENDER_RADIUS_BIGINT = BigInt(CHUNK_RENDER_RADIUS);
 let CHUNK_SIZE_BIGINT = BigInt(CHUNK_SIZE);
 
+// 0 - 4 cardinal directions
+// 1 - 8 directions
+// 2 - 16 directions
+// 3 - 32 directions
+let ROTATION_SECTION_PRECISION = 0;
+let ROTATION_SECTION_ANGLE_PRECISIONS = [4, 8, 16, 32];
 let ROTATION_SECTION_NAMES = [
-  'N; +Z',
-  'NE; +X+Z',
-  'E; +X',
-  'SE; +X-Z',
-  'S; -Z',
-  'SW; -X-Z',
-  'W; -X',
-  'NW; -X+Z',
+  [
+    'N; +Z',
+    'E; +X',
+    'S; -Z',
+    'W; -X',
+  ],
+  [
+    'N; +Z', 'NE; +X+Z',
+    'E; +X', 'SE; +X-Z',
+    'S; -Z', 'SW; -X-Z',
+    'W; -X', 'NW; -X+Z',
+  ],
+  [
+    'N; +Z', 'NE; +X+Z',
+    'E; +X', 'SE; +X-Z',
+    'S; -Z', 'SW; -X-Z',
+    'W; -X', 'NW; -X+Z',
+  ],
+  [
+    'N; +Z', 'NE; +X+Z',
+    'E; +X', 'SE; +X-Z',
+    'S; -Z', 'SW; -X-Z',
+    'W; -X', 'NW; -X+Z',
+  ],
 ];
 
 let KEY_CODES = {
