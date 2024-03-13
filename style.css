@@ -133,6 +133,8 @@ hr {
   left: 10px;
   top: 10px;
   font-size: 20px;
+  width: calc(100% - 10px);
+  line-break: anywhere;
   
   div {
     flex-direction: row;

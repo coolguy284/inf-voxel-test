@@ -1,5 +1,5 @@
 let MOVEMENT_SPEED = 10;
-let CHUNK_RENDER_RADIUS = 8;
+let CHUNK_RENDER_RADIUS = 2;
 // 0 - flat
 // 1 - earth
 let WORLDGEN_MODE = 0;
