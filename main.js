@@ -45,6 +45,11 @@ function createScene() {
   
   chunkRenderer = new ChunkRenderer(playerPos, chunkStore);
   
+  //const plane = BABYLON.MeshBuilder.CreatePlane();
+  //plane.material = BLOCK_DATA.get('inf_voxel_test:stone').material;
+  //plane.position = new BABYLON.Vector3(0, 0, 5);
+  //plane.rotation = new BABYLON.Vector3(0, Math.PI / 2 * 0.97, 0);
+  
   scene.onPointerDown = () => {
     // https://github.com/il-m-yamagishi/babylon-fps-shooter/blob/main/src/MainScene.ts#L107
     if (!engine.isPointerLock) {
