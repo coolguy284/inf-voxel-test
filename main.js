@@ -173,8 +173,12 @@ function createScene() {
       }
       
       let avgDeltaTime = frameTimesSum / frameTimes.length;
+      let minDeltaTime = frameTimes.reduce((a, c) => c < a ? c : a);
+      let maxDeltaTime = frameTimes.reduce((a, c) => c > a ? c : a);
       
-      fps_value.textContent = (1000 / avgDeltaTime).toFixed(1);
+      fps_value.textContent = Math.round(1000 / avgDeltaTime);
+      fps_min_value.textContent = Math.round(1000 / maxDeltaTime);
+      fps_max_value.textContent = Math.round(1000 / minDeltaTime);
     }
   };
   
