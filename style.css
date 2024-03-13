@@ -137,8 +137,11 @@ hr {
   line-break: anywhere;
   
   div {
-    flex-direction: row;
-    gap: 10px;
+    display: block;
+    
+    * {
+      display: inline-flex;
+    }
   }
 }
 

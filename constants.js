@@ -3,6 +3,8 @@ let CHUNK_RENDER_RADIUS = 2;
 // 0 - flat
 // 1 - earth
 let WORLDGEN_MODE = 0;
+let FIXED_NUMBER_PREC = 3;
+let FLOAT_NUMBER_PREC = 3;
 
 let CHUNK_SIZE = 8;
 let MAX_REGEN_QUEUE_PER_FRAME = 1000;

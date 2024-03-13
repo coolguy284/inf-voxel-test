@@ -5,11 +5,20 @@ let chunkStore = new ChunkManager();
 let chunkRenderer;
 let queuedDeltaX = 0, queuedDeltaY = 0, queuedDeltaZ = 0;
 
-function updatePlayerText() {
+let camera;
+
+function updatePosText() {
   let [ xString, yString, zString ] = playerPos.toStringArray();
   x_value.textContent = xString;
   y_value.textContent = yString;
   z_value.textContent = zString;
+}
+
+function updateRotTest() {
+  let horzAngle = camera.rotation.y / Math.PI * 180;
+  let vertAngle = -camera.rotation.x / Math.PI * 180;
+  horz_angle.textContent = horzAngle.toFixed(FLOAT_NUMBER_PREC);
+  vert_angle.textContent = vertAngle.toFixed(FLOAT_NUMBER_PREC);
 }
 
 function bumpPlayerPos(x, y, z) {
@@ -29,12 +38,14 @@ function createScene() {
     }
   }
   playerPos.translateByNumbers(0, 4.5, 0);
-  updatePlayerText();
+  updatePosText();
   
-  const camera = new BABYLON.UniversalCamera('camera', new BABYLON.Vector3(0, 0, 0), scene);
+  camera = new BABYLON.UniversalCamera('camera', new BABYLON.Vector3(0, 0, 0), scene);
   camera.inertia = 0;
   camera.angularSensibility = 500;
   camera.attachControl();
+  
+  updateRotTest();
   
   const light = new BABYLON.HemisphericLight('light', new BABYLON.Vector3(0, 1, 0), scene);
   light.intensity = 0.7;
@@ -60,6 +71,7 @@ function createScene() {
   // Modulo camera rotation value to keep it sane
   scene.onPointerMove = () => {
     camera.rotation.y = camera.rotation.y % (Math.PI * 2);
+    updateRotTest();
   };
   
   // https://playground.babylonjs.com/#H5813K
@@ -104,7 +116,7 @@ function createScene() {
     if (queuedDeltaX != 0 || queuedDeltaY != 0 || queuedDeltaZ != 0) {
       playerPos.translateByNumbers(queuedDeltaX, queuedDeltaY, queuedDeltaZ);
       chunkRenderer.updatePlayerPos(playerPos);
-      updatePlayerText();
+      updatePosText();
       
       queuedDeltaX = 0;
       queuedDeltaY = 0;
