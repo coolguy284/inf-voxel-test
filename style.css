@@ -135,6 +135,7 @@ hr {
   font-size: 20px;
   width: calc(100% - 10px);
   line-break: anywhere;
+  filter: drop-shadow(-1px -1px black) drop-shadow(-1px 1px black) drop-shadow(1px -1px black) drop-shadow(1px 1px black);
   
   div {
     display: block;

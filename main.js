@@ -17,7 +17,11 @@ function updatePosText() {
 function updateRotTest() {
   let horzAngle = camera.rotation.y / Math.PI * 180;
   let vertAngle = -camera.rotation.x / Math.PI * 180;
+  if (horzAngle < 0) horzAngle += 360;
   horz_angle.textContent = horzAngle.toFixed(FLOAT_NUMBER_PREC);
+  let horzAngleSection = Math.floor((horzAngle + 360 / 16) / 360 * 8);
+  if (horzAngleSection >= 8) horzAngleSection -= 8;
+  horz_angle_symbol.textContent = ROTATION_SECTION_NAMES[horzAngleSection];
   vert_angle.textContent = vertAngle.toFixed(FLOAT_NUMBER_PREC);
 }
 

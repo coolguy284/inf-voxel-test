@@ -16,6 +16,17 @@ let CHUNK_REGEN_ORDER = 1;
 let CHUNK_RENDER_RADIUS_BIGINT = BigInt(CHUNK_RENDER_RADIUS);
 let CHUNK_SIZE_BIGINT = BigInt(CHUNK_SIZE);
 
+let ROTATION_SECTION_NAMES = [
+  'N; +Z',
+  'NE; +X+Z',
+  'E; +X',
+  'SE; +X-Z',
+  'S; -Z',
+  'SW; -X-Z',
+  'W; -X',
+  'NW; -X+Z',
+];
+
 let KEY_CODES = {
   ShiftLeft: 16,
   Space: 32,
