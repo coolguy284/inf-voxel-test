@@ -1,8 +1,9 @@
 let MOVEMENT_SPEED = 10;
-let CHUNK_RENDER_RADIUS = 3;
+let CHUNK_RENDER_RADIUS = 6;
 // 0 - flat
 // 1 - earth
-let WORLDGEN_MODE = 0;
+// 2 - deliberately badly coded sinewaves
+let WORLDGEN_MODE = 2;
 let FIXED_NUMBER_PREC = 3;
 let FLOAT_NUMBER_PREC = 3;
 let FPS_AVG_FRAMES = 120 * 2;

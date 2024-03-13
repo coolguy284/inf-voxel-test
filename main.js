@@ -87,6 +87,7 @@ function createScene() {
   camera.inertia = 0;
   camera.angularSensibility = 500;
   camera.attachControl();
+  // https://forum.babylonjs.com/t/how-to-disable-arrows-keys/34102/3
   camera.inputs.remove(camera.inputs.attached.keyboard);
   
   updateRotText();
@@ -100,27 +101,26 @@ function createScene() {
   
   chunkRenderer = new ChunkRenderer(playerPos, chunkStore);
   
-  //const plane = BABYLON.MeshBuilder.CreatePlane();
-  //plane.material = BLOCK_DATA.get('inf_voxel_test:stone').material;
-  //plane.position = new BABYLON.Vector3(0, 0, 5);
-  //plane.rotation = new BABYLON.Vector3(0, Math.PI / 2 * 0.97, 0);
-  
-  /*scene.onKeyboardObservable = evt => {
+  // https://doc.babylonjs.com/features/featuresDeepDive/scene/interactWithScenes#keyboard-interactions
+  scene.onKeyboardObservable.add((evt) => {
     if (evt.type == BABYLON.KeyboardEventTypes.KEYDOWN) {
-      console.log(evt.code);
+      let code = evt.event.code;
+      if (code == 'ArrowLeft') {
+        prevInvItem();
+      } else if (code == 'ArrowRight') {
+        nextInvItem();
+      }
     }
-  };*/
+  });
   
   scene.onPointerDown = evt => {
     // https://github.com/il-m-yamagishi/babylon-fps-shooter/blob/main/src/MainScene.ts#L107
     if (evt.button == MOUSE_CODES.LEFT) {
       if (!engine.isPointerLock) {
         engine.enterPointerlock();
+      } else {
+        breakBlockAtFacing();
       }
-    }
-    
-    if (evt.button == MOUSE_CODES.LEFT) {
-      breakBlockAtFacing();
     } else if (evt.button == MOUSE_CODES.RIGHT) {
       placeBlockAtFacing();
     }
