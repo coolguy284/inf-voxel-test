@@ -1,10 +1,10 @@
 let MOVEMENT_SPEED = 10;
-let CHUNK_RENDER_RADIUS = 4;
+let CHUNK_RENDER_RADIUS = 8;
 // 0 - flat
 // 1 - earth
 let WORLDGEN_MODE = 0;
 
-let CHUNK_SIZE = 4;
+let CHUNK_SIZE = 8;
 let MAX_REGEN_QUEUE_PER_FRAME = 1000;
 let MAX_REGEN_MILLIS_PER_FRAME = 3;
 // 0 - bottom up
