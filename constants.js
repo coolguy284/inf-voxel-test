@@ -95,6 +95,7 @@ let BLOCK_DATA = new Map([
   }],
 ]);
 let BLOCKS;
+let BLOCKS_INVERSE;
 
 let DEFAULT_BLOCK = 'inf_voxel_test:air';
 let CHUNK_INVALID_ID_BLOCK = 'inf_voxel_test:air';

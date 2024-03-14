@@ -36,6 +36,12 @@ function updateInvSlotText() {
   inv_name.textContent = BLOCKS[invSlot];
 }
 
+function updateHeadBlockText() {
+  let headBlock = chunkStore.getBlockAt(playerPos.getBlockX(), playerPos.getBlockY(), playerPos.getBlockZ());
+  head_block_id.textContent = BLOCKS_INVERSE[headBlock];
+  head_block_name.textContent = headBlock;
+}
+
 function bumpPlayerPos(x, y, z) {
   queuedDeltaX += x;
   queuedDeltaY += y;
@@ -77,11 +83,13 @@ function createScene() {
     }
   }
   BLOCKS = Array.from(BLOCK_DATA.keys());
+  BLOCKS_INVERSE = Object.fromEntries(Object.entries(BLOCKS).map(([a, b]) => [b, a]));
   
   updateInvSlotText();
   
   playerPos.translateByNumbers(0, 4.5, 0);
   updatePosText();
+  updateHeadBlockText();
   
   camera = new BABYLON.UniversalCamera('camera', new BABYLON.Vector3(0, 0, 0), scene);
   camera.inertia = 0;
@@ -175,6 +183,7 @@ function createScene() {
       playerPos.translateByNumbers(queuedDeltaX, queuedDeltaY, queuedDeltaZ);
       chunkRenderer.updatePlayerPos(playerPos);
       updatePosText();
+      updateHeadBlockText();
       
       queuedDeltaX = 0;
       queuedDeltaY = 0;
