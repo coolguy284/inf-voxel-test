@@ -14,6 +14,8 @@ let MAX_REGEN_MILLIS_PER_FRAME = 3;
 // 0 - bottom up
 // 1 - closest first
 let CHUNK_REGEN_ORDER = 1;
+let BLOCK_RAYCAST_STEP_SIZE = 0.1;
+let BLOCK_RAYCAST_MAX_DIST = 100.0;
 
 let CHUNK_RENDER_RADIUS_BIGINT = BigInt(CHUNK_RENDER_RADIUS);
 let CHUNK_SIZE_BIGINT = BigInt(CHUNK_SIZE);
@@ -99,3 +101,4 @@ let BLOCKS_INVERSE;
 
 let DEFAULT_BLOCK = 'inf_voxel_test:air';
 let CHUNK_INVALID_ID_BLOCK = 'inf_voxel_test:air';
+let EMPTY_BLOCK = 'inf_voxel_test:air';

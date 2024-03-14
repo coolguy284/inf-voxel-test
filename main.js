@@ -64,12 +64,60 @@ function nextInvItem() {
   updateInvSlotText();
 }
 
-function breakBlockAtFacing() {
+// returns [[x, y, z], [x, y, z]]; first is air right before block, second is block
+function raycastForwardTillBlock(origPos, raycastDir) {
+  let raycastPos = new WorldPos();
   
+  raycastPos.copyFrom(origPos);
+  
+  let raycastStep = raycastDir.scale(BLOCK_RAYCAST_STEP_SIZE);
+  
+  let [ stepX, stepY, stepZ ] = [raycastStep.x, raycastStep.y, raycastStep.z];
+  
+  let [ prevX, prevY, prevZ ] = [
+    raycastPos.getBlockX(),
+    raycastPos.getBlockY(),
+    raycastPos.getBlockZ(),
+  ];
+  
+  for (let i = 0; i < BLOCK_RAYCAST_MAX_DIST; i += BLOCK_RAYCAST_STEP_SIZE) {
+    raycastPos.translateByNumbers(stepX, stepY, stepZ);
+    
+    let blockAtRayPos = chunkStore.getBlockAt(raycastPos.getBlockX(), raycastPos.getBlockY(), raycastPos.getBlockZ());
+    
+    if (blockAtRayPos != EMPTY_BLOCK) {
+      break;
+    }
+    
+    [ prevX, prevY, prevZ ] = [
+      raycastPos.getBlockX(),
+      raycastPos.getBlockY(),
+      raycastPos.getBlockZ(),
+    ];
+  }
+  
+  return [
+    [prevX, prevY, prevZ],
+    [
+      raycastPos.getBlockX(),
+      raycastPos.getBlockY(),
+      raycastPos.getBlockZ(),
+    ],
+  ];
+}
+
+function breakBlockAtFacing() {
+  let [ [ _airX, _airY, _airZ ], [ blockX, blockY, blockZ ] ] = raycastForwardTillBlock(playerPos, camera.getForwardRay().direction);
+  
+  chunkStore.setBlockAt(blockX, blockY, blockZ, EMPTY_BLOCK);
+  chunkRenderer.updateBlockAt(blockX, blockY, blockZ);
 }
 
 function placeBlockAtFacing() {
+  let [ [ airX, airY, airZ ], [ _blockX, _blockY, _blockZ ] ] = raycastForwardTillBlock(playerPos, camera.getForwardRay().direction);
   
+  chunkStore.setBlockAt(airX, airY, airZ, BLOCKS[invSlot]);
+  chunkRenderer.updateBlockAt(airX, airY, airZ);
 }
 
 function createScene() {
