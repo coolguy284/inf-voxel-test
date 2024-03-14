@@ -148,6 +148,12 @@ function createScene() {
   // https://forum.babylonjs.com/t/how-to-disable-arrows-keys/34102/3
   camera.inputs.remove(camera.inputs.attached.keyboard);
   
+  if (SCREEN_SPACE_AMBIENT_OCCLUSION) {
+    // https://doc.babylonjs.com/features/featuresDeepDive/postProcesses/SSAORenderPipeline
+    const ssao = new BABYLON.SSAORenderingPipeline('ssao', scene, 0.75);
+    scene.postProcessRenderPipelineManager.attachCamerasToRenderPipeline('ssao', camera);
+  }
+  
   updateRotText();
   
   const light = new BABYLON.HemisphericLight('light', new BABYLON.Vector3(0, 1, 0), scene);
