@@ -146,6 +146,15 @@ hr {
   }
 }
 
+#cursor_overlay {
+  position: absolute;
+  left: calc(50% - 5px);
+  top: calc(50% - 5px);
+  width: 6px;
+  height: 6px;
+  border: 2px solid white;
+}
+
 #menu_overlay {
   background-color: rgba(0, 0, 0, 0.5);
 }
