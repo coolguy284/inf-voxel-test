@@ -142,6 +142,8 @@ function createScene() {
   camera = new BABYLON.UniversalCamera('camera', new BABYLON.Vector3(0, 0, 0), scene);
   camera.inertia = 0;
   camera.angularSensibility = 500;
+  // https://forum.babylonjs.com/t/disable-camera-near-plane-clipping/33739
+  camera.minZ = CAM_MIN_DIST;
   camera.attachControl();
   // https://forum.babylonjs.com/t/how-to-disable-arrows-keys/34102/3
   camera.inputs.remove(camera.inputs.attached.keyboard);
