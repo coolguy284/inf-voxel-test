@@ -132,7 +132,7 @@ function placeBlockAtFacing() {
 function createScene() {
   scene = new BABYLON.Scene(engine);
   
-  worldData = new WorldData();
+  worldData = new WorldData(scene);
   playerPos = new WorldPosDim(Array.from(worldData.dimensions.keys())[0]);
   
   playerPos.translateByNumbers(0, 4.5, 0);
