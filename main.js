@@ -4,14 +4,15 @@ let worldData = new WorldData();
 let gameSettings = new GameSettings();
 let playerPos = new WorldPosDim(Array.from(worldData.dimensions.keys())[0]);
 let invSlot = 1;
-let queuedDeltaX = 0, queuedDeltaY = 0, queuedDeltaZ = 0;
+let queuedDeltaX = 0, queuedDeltaY = 0, queuedDeltaZ = 0, queuedDeltaDim = null;
 
 let environmentRenderer;
 let chunkRenderer;
 let camera;
 
 function updatePosText() {
-  let [ xString, yString, zString ] = playerPos.toStringArray();
+  let [ dimension, xString, yString, zString ] = playerPos.toStringArray();
+  dimension_value.textContent = dimension;
   x_value.textContent = xString;
   y_value.textContent = yString;
   z_value.textContent = zString;
@@ -120,18 +121,14 @@ function breakBlockAtFacing() {
 function placeBlockAtFacing() {
   let [ [ airX, airY, airZ ], [ _blockX, _blockY, _blockZ ] ] = raycastForwardTillBlock(playerPos, camera.getForwardRay().direction);
   
-  chunkStore.setBlockAt(airX, airY, airZ, BLOCKS[invSlot]);
+  chunkStore.setBlockAt(airX, airY, airZ, worldData.blockRuntimeIDToName[invSlot]);
   chunkRenderer.updateBlockAt(airX, airY, airZ);
 }
 
 function createScene() {
   const scene = new BABYLON.Scene(engine);
   
-  updateInvSlotText();
-  
   playerPos.translateByNumbers(0, 4.5, 0);
-  updatePosText();
-  updateHeadBlockText();
   
   camera = new BABYLON.UniversalCamera('camera', new BABYLON.Vector3(0, 0, 0), scene);
   camera.inertia = 0;
@@ -148,15 +145,12 @@ function createScene() {
     scene.postProcessRenderPipelineManager.attachCamerasToRenderPipeline('ssao', camera);
   }
   
+  updateInvSlotText();
+  updatePosText();
+  updateHeadBlockText();
   updateRotText();
   
-  const light = new BABYLON.HemisphericLight('light', new BABYLON.Vector3(0, 1, 0), scene);
-  light.intensity = 0.7;
-  
-  // https://doc.babylonjs.com/features/featuresDeepDive/environment/skybox
-  scene.createDefaultSkybox(skyboxTexture, false, 1000);
-  
-  environmentRenderer = new EnvironmentRenderer(playerPos);
+  environmentRenderer = new EnvironmentRenderer(playerPos, scene);
   chunkRenderer = new ChunkRenderer(playerPos, chunkStore);
   
   // https://doc.babylonjs.com/features/featuresDeepDive/scene/interactWithScenes#keyboard-interactions
@@ -213,15 +207,15 @@ function createScene() {
         const quat = BABYLON.Quaternion.FromEulerAngles(0, horizontalAngle, 0);
         
         const unTransformedMvmt = new BABYLON.Vector3(
-          (rightPressed - leftPressed) * MOVEMENT_SPEED * scene.deltaTime / 1000,
+          (rightPressed - leftPressed) * gameSettings.movementSpeed * scene.deltaTime / 1000,
           0,
-          (forwardPressed - backwardPressed) * MOVEMENT_SPEED * scene.deltaTime / 1000
+          (forwardPressed - backwardPressed) * gameSettings.movementSpeed * scene.deltaTime / 1000
         );
         
         let result = BABYLON.Vector3.Zero();
         unTransformedMvmt.rotateByQuaternionToRef(quat, result);
         
-        result.y += (upPressed - downPressed) * MOVEMENT_SPEED * scene.deltaTime / 1000;
+        result.y += (upPressed - downPressed) * gameSettings.movementSpeed * scene.deltaTime / 1000;
         
         queuedDeltaX += result.x;
         queuedDeltaY += result.y;
@@ -253,7 +247,7 @@ function createScene() {
     chunkRenderer.regenFromRegenQueue();
   };
   
-  let frameTimes = new Array(FPS_AVG_FRAMES).fill(0);
+  let frameTimes = new Array(gameSettings.fpsAvgFrames).fill(0);
   let frameTimesSum = 0;
   let frameIndex = 0;
   
