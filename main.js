@@ -71,7 +71,7 @@ function nextInvItem() {
 
 // returns [[x, y, z], [x, y, z]]; first is air right before block, second is block
 function raycastForwardTillBlock(origPos, raycastDir) {
-  let raycastPos = new WorldPos();
+  let raycastPos = new WorldPosDim();
   
   raycastPos.copyFrom(origPos);
   
@@ -79,7 +79,8 @@ function raycastForwardTillBlock(origPos, raycastDir) {
   
   let [ stepX, stepY, stepZ ] = [raycastStep.x, raycastStep.y, raycastStep.z];
   
-  let [ prevX, prevY, prevZ ] = [
+  let [ prevDim, prevX, prevY, prevZ ] = [
+    raycastPos.getDimension(),
     raycastPos.getBlockX(),
     raycastPos.getBlockY(),
     raycastPos.getBlockZ(),
@@ -90,13 +91,14 @@ function raycastForwardTillBlock(origPos, raycastDir) {
   for (let i = 0; i < gameSettings.blockRaycastMaxDist; i += gameSettings.blockRaycastStepSize) {
     raycastPos.translateByNumbers(stepX, stepY, stepZ);
     
-    let blockAtRayPos = worldData.chunkStore.getBlockAt(raycastPos.getBlockX(), raycastPos.getBlockY(), raycastPos.getBlockZ());
+    let blockAtRayPos = worldData.chunkStore.getBlockAt(raycastPos.getDimension(), raycastPos.getBlockX(), raycastPos.getBlockY(), raycastPos.getBlockZ());
     
     if (blockAtRayPos != emptyBlock) {
       break;
     }
     
-    [ prevX, prevY, prevZ ] = [
+    [ prevDim, prevX, prevY, prevZ ] = [
+      raycastPos.getDimension(),
       raycastPos.getBlockX(),
       raycastPos.getBlockY(),
       raycastPos.getBlockZ(),
@@ -104,8 +106,9 @@ function raycastForwardTillBlock(origPos, raycastDir) {
   }
   
   return [
-    [prevX, prevY, prevZ],
+    [prevDim, prevX, prevY, prevZ],
     [
+      raycastPos.getDimension(),
       raycastPos.getBlockX(),
       raycastPos.getBlockY(),
       raycastPos.getBlockZ(),
@@ -114,19 +117,19 @@ function raycastForwardTillBlock(origPos, raycastDir) {
 }
 
 function breakBlockAtFacing() {
-  let [ [ _airX, _airY, _airZ ], [ blockX, blockY, blockZ ] ] = raycastForwardTillBlock(playerPos, camera.getForwardRay().direction);
+  let [ [ _airDim, _airX, _airY, _airZ ], [ blockDim, blockX, blockY, blockZ ] ] = raycastForwardTillBlock(playerPos, camera.getForwardRay().direction);
   
   let emptyBlock = worldData.getEmptyBlock(playerPos.getDimension());
   
-  worldData.chunkStore.setBlockAt(blockX, blockY, blockZ, emptyBlock);
-  chunkRenderer.updateBlockAt(blockX, blockY, blockZ);
+  worldData.chunkStore.setBlockAt(blockDim, blockX, blockY, blockZ, emptyBlock);
+  chunkRenderer.updateBlockAt(blockDim, blockX, blockY, blockZ);
 }
 
 function placeBlockAtFacing() {
-  let [ [ airX, airY, airZ ], [ _blockX, _blockY, _blockZ ] ] = raycastForwardTillBlock(playerPos, camera.getForwardRay().direction);
+  let [ [ airDim, airX, airY, airZ ], [ _blockDim, _blockX, _blockY, _blockZ ] ] = raycastForwardTillBlock(playerPos, camera.getForwardRay().direction);
   
-  worldData.chunkStore.setBlockAt(airX, airY, airZ, worldData.blockRuntimeIDToName.get(invSlot));
-  chunkRenderer.updateBlockAt(airX, airY, airZ);
+  worldData.chunkStore.setBlockAt(airDim, airX, airY, airZ, worldData.blockRuntimeIDToName.get(invSlot));
+  chunkRenderer.updateBlockAt(airDim, airX, airY, airZ);
 }
 
 function createScene() {

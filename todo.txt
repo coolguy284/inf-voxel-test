@@ -1,2 +1,3 @@
+finish command system
 add chunk boundaries, player boundaries support
 make chunkrenderer's activemesh fully independent of setting vars in chunkmanager; to enable multiple chunkrenderers on same chunk data
