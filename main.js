@@ -42,7 +42,7 @@ function updateInvSlotText() {
 }
 
 function updateHeadBlockText() {
-  let headBlock = worldData.chunkStore.getBlockAt(playerPos.getBlockX(), playerPos.getBlockY(), playerPos.getBlockZ());
+  let headBlock = worldData.chunkStore.getBlockAt(playerPos.getDimension(), playerPos.getBlockX(), playerPos.getBlockY(), playerPos.getBlockZ());
   head_block_id.textContent = worldData.blockNameToRuntimeID.get(headBlock);
   head_block_name.textContent = headBlock;
 }
