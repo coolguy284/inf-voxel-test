@@ -1,8 +1,10 @@
 const engine = new BABYLON.Engine(canvas, true);
 
-let worldData = new WorldData();
+let scene;
+
+let worldData;
 let gameSettings = new GameSettings();
-let playerPos = new WorldPosDim(Array.from(worldData.dimensions.keys())[0]);
+let playerPos;
 let invSlot = 1;
 let queuedDeltaX = 0, queuedDeltaY = 0, queuedDeltaZ = 0, queuedDeltaDim = null;
 
@@ -40,7 +42,7 @@ function updateInvSlotText() {
 }
 
 function updateHeadBlockText() {
-  let headBlock = chunkStore.getBlockAt(playerPos.getBlockX(), playerPos.getBlockY(), playerPos.getBlockZ());
+  let headBlock = worldData.chunkStore.getBlockAt(playerPos.getBlockX(), playerPos.getBlockY(), playerPos.getBlockZ());
   head_block_id.textContent = worldData.blockNameToRuntimeID.get(headBlock);
   head_block_name.textContent = headBlock;
 }
@@ -126,7 +128,10 @@ function placeBlockAtFacing() {
 }
 
 function createScene() {
-  const scene = new BABYLON.Scene(engine);
+  scene = new BABYLON.Scene(engine);
+  
+  worldData = new WorldData();
+  playerPos = new WorldPosDim(Array.from(worldData.dimensions.keys())[0]);
   
   playerPos.translateByNumbers(0, 4.5, 0);
   
@@ -134,7 +139,7 @@ function createScene() {
   camera.inertia = 0;
   camera.angularSensibility = 500;
   // https://forum.babylonjs.com/t/disable-camera-near-plane-clipping/33739
-  camera.minZ = CAM_MIN_DIST;
+  camera.minZ = gameSettings.camMinDist;
   camera.attachControl();
   // https://forum.babylonjs.com/t/how-to-disable-arrows-keys/34102/3
   camera.inputs.remove(camera.inputs.attached.keyboard);
@@ -270,11 +275,9 @@ function createScene() {
       fps_max_value.textContent = Math.round(1000 / minDeltaTime);
     }
   };
-  
-  return scene;
 }
 
-const scene = createScene();
+createScene();
 
 engine.runRenderLoop(() => {
   scene.render();

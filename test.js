@@ -19,21 +19,21 @@ function test_chunk_manager() {
   
   let chunkManager = new ChunkManager();
   
-  console.log(chunkManager.getChunkAt(0n, -2n, 0n).getBlockAt(0, CHUNK_SIZE - 1, 0));
-  console.log(chunkManager.getChunkAt(0n, -1n, 0n).getBlockAt(0, CHUNK_SIZE - 7, 0));
-  console.log(chunkManager.getChunkAt(0n, -1n, 0n).getBlockAt(0, CHUNK_SIZE - 1, 0));
+  console.log(chunkManager.getChunkAt(0n, -2n, 0n).getBlockAt(0, worldData.chunkSize - 1, 0));
+  console.log(chunkManager.getChunkAt(0n, -1n, 0n).getBlockAt(0, worldData.chunkSize - 7, 0));
+  console.log(chunkManager.getChunkAt(0n, -1n, 0n).getBlockAt(0, worldData.chunkSize - 1, 0));
   console.log(chunkManager.getChunkAt(0n, 0n, 0n).getBlockAt(0, 0, 0));
   console.log(chunkManager.getChunkAt(0n, 0n, 0n).getBlockAt(0, 1, 0));
   console.log(chunkManager.getChunkAt(0n, 1n, 0n).getBlockAt(0, 0, 0));
   
   console.log();
   
-  console.log(chunkManager.getBlockAt(0n, BigInt(-CHUNK_SIZE - 1), 0n));
+  console.log(chunkManager.getBlockAt(0n, BigInt(-worldData.chunkSize - 1), 0n));
   console.log(chunkManager.getBlockAt(0n, -7n, 0n));
   console.log(chunkManager.getBlockAt(0n, -1n, 0n));
   console.log(chunkManager.getBlockAt(0n, 0n, 0n));
   console.log(chunkManager.getBlockAt(0n, 1n, 0n));
-  console.log(chunkManager.getBlockAt(0n, BigInt(CHUNK_SIZE), 0n));
+  console.log(chunkManager.getBlockAt(0n, BigInt(worldData.chunkSize), 0n));
   
   console.log('chunk manager test finished');
 }
