@@ -6,6 +6,7 @@ let playerPos = new WorldPosDim(Array.from(worldData.dimensions.keys())[0]);
 let invSlot = 1;
 let queuedDeltaX = 0, queuedDeltaY = 0, queuedDeltaZ = 0;
 
+let environmentRenderer;
 let chunkRenderer;
 let camera;
 
@@ -153,9 +154,9 @@ function createScene() {
   light.intensity = 0.7;
   
   // https://doc.babylonjs.com/features/featuresDeepDive/environment/skybox
-  const skyboxTexture = new BABYLON.CubeTexture(texArrayFromBlockData(SKYBOX_DATA)[0], scene, null, null, texArrayFromBlockData(SKYBOX_DATA));
   scene.createDefaultSkybox(skyboxTexture, false, 1000);
   
+  environmentRenderer = new EnvironmentRenderer(playerPos);
   chunkRenderer = new ChunkRenderer(playerPos, chunkStore);
   
   // https://doc.babylonjs.com/features/featuresDeepDive/scene/interactWithScenes#keyboard-interactions
@@ -237,6 +238,16 @@ function createScene() {
       queuedDeltaX = 0;
       queuedDeltaY = 0;
       queuedDeltaZ = 0;
+    }
+    
+    if (queuedDeltaDim != null) {
+      playerPos.setDimension(queuedDeltaDim);
+      chunkRenderer.updatePlayerPos(playerPos);
+      environmentRenderer.updatePlayerPos(playerPos);
+      updatePosText();
+      updateHeadBlockText();
+      
+      queuedDeltaDim = null;
     }
     
     chunkRenderer.regenFromRegenQueue();
