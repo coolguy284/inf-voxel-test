@@ -1,9 +1,22 @@
 // gameplay
 
+let BLOCK_RENDER = {
+  NONE: 0,
+  NO_ALPHA: 1,
+  ALPHA_TEST: 2,
+  FULL_ALPHA: 3,
+};
+
 let WORLDGEN = {
   FLAT: 0,
   EARTH: 1,
   BAD_SINEWAVES: 2, // deliberately badly coded sinewaves
+};
+
+let MULTIPLAYER_STATE = {
+  SINGLEPLAYER: 0,
+  MULTIPLAYER_HOST: 1,
+  MULTIPLAYER_GUEST: 2,
 };
 
 // visual

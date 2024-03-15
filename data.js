@@ -1,3 +1,5 @@
+// visual
+
 let ROTATION_SECTION_ANGLE_PRECISIONS = [4, 8, 16, 32];
 let ROTATION_SECTION_NAMES = [
   // https://en.wikipedia.org/wiki/Points_of_the_compass
