@@ -1,7 +1,8 @@
 const engine = new BABYLON.Engine(canvas, true);
 
-let playerPos = new WorldPos();
-let chunkStore = new ChunkManager();
+let worldData = new WorldData();
+let gameSettings = new GameSettings();
+let playerPos = new WorldPosDim(Array.from(worldData.dimensions.keys())[0]);
 let invSlot = 1;
 let queuedDeltaX = 0, queuedDeltaY = 0, queuedDeltaZ = 0;
 
@@ -20,25 +21,25 @@ function updateRotText() {
   let vertAngle = -camera.rotation.x / Math.PI * 180;
   if (horzAngle < 0) horzAngle += 360;
   
-  let rotSections = ROTATION_SECTION_ANGLE_PRECISIONS[ROTATION_SECTION_PRECISION];
-  let rotSectionNames = ROTATION_SECTION_NAMES[ROTATION_SECTION_PRECISION];
+  let rotSections = ROTATION_SECTION_ANGLE_PRECISIONS[gameSettings.compassRotationPrecision];
+  let rotSectionNames = ROTATION_SECTION_NAMES[gameSettings.compassRotationPrecision];
   
   let horzAngleSection = Math.floor((horzAngle + 360 / rotSections / 2) / 360 * rotSections);
   if (horzAngleSection >= rotSections) horzAngleSection -= rotSections;
   
-  horz_angle.textContent = horzAngle.toFixed(FLOAT_NUMBER_PREC);
+  horz_angle.textContent = horzAngle.toFixed(gameSettings.floatNumberPrec);
   horz_angle_symbol.textContent = rotSectionNames[horzAngleSection];
-  vert_angle.textContent = vertAngle.toFixed(FLOAT_NUMBER_PREC);
+  vert_angle.textContent = vertAngle.toFixed(gameSettings.floatNumberPrec);
 }
 
 function updateInvSlotText() {
   inv_id.textContent = invSlot;
-  inv_name.textContent = BLOCKS[invSlot];
+  inv_name.textContent = worldData.blockRuntimeIDToName.get(invSlot);
 }
 
 function updateHeadBlockText() {
   let headBlock = chunkStore.getBlockAt(playerPos.getBlockX(), playerPos.getBlockY(), playerPos.getBlockZ());
-  head_block_id.textContent = BLOCKS_INVERSE[headBlock];
+  head_block_id.textContent = worldData.blockNameToRuntimeID.get(headBlock);
   head_block_name.textContent = headBlock;
 }
 
@@ -58,8 +59,8 @@ function prevInvItem() {
 
 function nextInvItem() {
   invSlot++;
-  if (invSlot >= BLOCKS.length) {
-    invSlot = BLOCKS.length - 1;
+  if (invSlot >= worldData.blockRuntimeIDToName.size) {
+    invSlot = worldData.blockRuntimeIDToName.size - 1;
   }
   updateInvSlotText();
 }
@@ -70,7 +71,7 @@ function raycastForwardTillBlock(origPos, raycastDir) {
   
   raycastPos.copyFrom(origPos);
   
-  let raycastStep = raycastDir.scale(BLOCK_RAYCAST_STEP_SIZE);
+  let raycastStep = raycastDir.scale(gameSettings.blockRaycastStepSize);
   
   let [ stepX, stepY, stepZ ] = [raycastStep.x, raycastStep.y, raycastStep.z];
   
@@ -80,12 +81,14 @@ function raycastForwardTillBlock(origPos, raycastDir) {
     raycastPos.getBlockZ(),
   ];
   
-  for (let i = 0; i < BLOCK_RAYCAST_MAX_DIST; i += BLOCK_RAYCAST_STEP_SIZE) {
+  let emptyBlock = worldData.getEmptyBlock(worldPos.getDimension());
+  
+  for (let i = 0; i < gameSettings.blockRaycastMaxDist; i += gameSettings.blockRaycastStepSize) {
     raycastPos.translateByNumbers(stepX, stepY, stepZ);
     
     let blockAtRayPos = chunkStore.getBlockAt(raycastPos.getBlockX(), raycastPos.getBlockY(), raycastPos.getBlockZ());
     
-    if (blockAtRayPos != EMPTY_BLOCK) {
+    if (blockAtRayPos != emptyBlock) {
       break;
     }
     
@@ -123,16 +126,6 @@ function placeBlockAtFacing() {
 function createScene() {
   const scene = new BABYLON.Scene(engine);
   
-  for (let [ blockName, blockData ] of BLOCK_DATA.entries()) {
-    if (blockData.render) {
-      blockData.material = new BABYLON.StandardMaterial(`${blockName}::material`, scene);
-      blockData.textureObj = new BABYLON.Texture(blockData.texture, scene);
-      blockData.material.diffuseTexture = blockData.textureObj;
-    }
-  }
-  BLOCKS = Array.from(BLOCK_DATA.keys());
-  BLOCKS_INVERSE = Object.fromEntries(Object.entries(BLOCKS).map(([a, b]) => [b, a]));
-  
   updateInvSlotText();
   
   playerPos.translateByNumbers(0, 4.5, 0);
@@ -148,7 +141,7 @@ function createScene() {
   // https://forum.babylonjs.com/t/how-to-disable-arrows-keys/34102/3
   camera.inputs.remove(camera.inputs.attached.keyboard);
   
-  if (SCREEN_SPACE_AMBIENT_OCCLUSION) {
+  if (gameSettings.screenSpaceAmbientOcclusion) {
     // https://doc.babylonjs.com/features/featuresDeepDive/postProcesses/SSAORenderPipeline
     const ssao = new BABYLON.SSAORenderingPipeline('ssao', scene, 0.75);
     scene.postProcessRenderPipelineManager.attachCamerasToRenderPipeline('ssao', camera);
@@ -284,7 +277,7 @@ engine.runRenderLoop(() => {
 
 addEventListener('resize', () => engine.resize());
 
-mainPageManager.switchPage("Game");
+mainPageManager.switchPage('Game');
 engine.resize();
 
 //center=new WorldPos();vll=setInterval(()=>{let d=playerPos.approxDistTo(center);if(Number.isFinite(d*100))MOVEMENT_SPEED=d*1;},50)
