@@ -156,7 +156,7 @@ function createScene() {
   updateRotText();
   
   environmentRenderer = new EnvironmentRenderer(playerPos, scene);
-  chunkRenderer = new ChunkRenderer(playerPos, chunkStore);
+  chunkRenderer = new ChunkRenderer(playerPos, worldData.chunkStore);
   
   // https://doc.babylonjs.com/features/featuresDeepDive/scene/interactWithScenes#keyboard-interactions
   scene.onKeyboardObservable.add((evt) => {
