@@ -85,12 +85,12 @@ function raycastForwardTillBlock(origPos, raycastDir) {
     raycastPos.getBlockZ(),
   ];
   
-  let emptyBlock = worldData.getEmptyBlock(worldPos.getDimension());
+  let emptyBlock = worldData.getEmptyBlock(playerPos.getDimension());
   
   for (let i = 0; i < gameSettings.blockRaycastMaxDist; i += gameSettings.blockRaycastStepSize) {
     raycastPos.translateByNumbers(stepX, stepY, stepZ);
     
-    let blockAtRayPos = chunkStore.getBlockAt(raycastPos.getBlockX(), raycastPos.getBlockY(), raycastPos.getBlockZ());
+    let blockAtRayPos = worldData.chunkStore.getBlockAt(raycastPos.getBlockX(), raycastPos.getBlockY(), raycastPos.getBlockZ());
     
     if (blockAtRayPos != emptyBlock) {
       break;
@@ -116,14 +116,16 @@ function raycastForwardTillBlock(origPos, raycastDir) {
 function breakBlockAtFacing() {
   let [ [ _airX, _airY, _airZ ], [ blockX, blockY, blockZ ] ] = raycastForwardTillBlock(playerPos, camera.getForwardRay().direction);
   
-  chunkStore.setBlockAt(blockX, blockY, blockZ, EMPTY_BLOCK);
+  let emptyBlock = worldData.getEmptyBlock(playerPos.getDimension());
+  
+  worldData.chunkStore.setBlockAt(blockX, blockY, blockZ, emptyBlock);
   chunkRenderer.updateBlockAt(blockX, blockY, blockZ);
 }
 
 function placeBlockAtFacing() {
   let [ [ airX, airY, airZ ], [ _blockX, _blockY, _blockZ ] ] = raycastForwardTillBlock(playerPos, camera.getForwardRay().direction);
   
-  chunkStore.setBlockAt(airX, airY, airZ, worldData.blockRuntimeIDToName[invSlot]);
+  worldData.chunkStore.setBlockAt(airX, airY, airZ, worldData.blockRuntimeIDToName.get(invSlot));
   chunkRenderer.updateBlockAt(airX, airY, airZ);
 }
 
