@@ -1,0 +1,6 @@
+Can choose to follow either MIT or Unlicense; MIT made available in case
+Unlicense does not legally apply in your jurisdiction.
+
+Note: the two "lib_extern/babylon_*" files are from an external source
+(the BabylonJS library) and thus the MIT+Unlicense of the rest of this
+repo does not apply to those two files.
